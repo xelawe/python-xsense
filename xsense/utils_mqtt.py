@@ -12,8 +12,8 @@ def get_mqttenv():
     parser.add_argument('--mqtttopic', help='MQTT Topic')
     args = parser.parse_args()
 
-    if args.mqtthost and args.mqttusr and args.mqttpass and args.mqtttopic:
-        return args.mqtthost, args.username, args.password, args.mqtttopic
+    if args.mqtthost and args.mqttusr and args.mqttpwd and args.mqtttopic:
+        return args.mqtthost, args.mqttusr, args.mqttpwd, args.mqtttopic
 
     with contextlib.suppress(FileNotFoundError):
         with open('.env', 'r') as file:
@@ -29,8 +29,8 @@ def get_mqttenv():
                     elif key.lower() == 'mqtttopic':
                         mqtttopic = value
 
-    if mqtthost and username and password and mqtttopic:
-        return mqtthost, username, password, mqtttopic
+    if mqtthost and mqttusr and mqttpwd and mqtttopic:
+        return mqtthost, mqttusr, mqttpwd, mqtttopic
 
     raise ValueError('MQTT environments not provided')
 
