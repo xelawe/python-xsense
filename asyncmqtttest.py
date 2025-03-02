@@ -3,7 +3,7 @@ import asyncio
 from xsense.async_xsense import AsyncXSense
 from xsense.utils import dump_environment, get_credentials
 from xsense.utils_mqtt import mqtt_environment, get_mqttenv, on_connect
-import paho.mqtt.client as mqtt
+from paho.mqtt import client as mqtt
 
 async def run(username: str, password: str):
     api = AsyncXSense()
