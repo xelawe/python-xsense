@@ -44,7 +44,7 @@ def mqtt_environment(env: XSenseBase, client, topic):
         topic_house = f'{topic}/{h.name}'
         for s_id, s in h.stations.items():
 #            mqtt_device(s, client, topic)
-            client.publish(f'{topic_house}/{s.name}/values',f'{s_id}')                        
+            client.publish(f'{topic_house}/{s.name}/id',f'{s_id}')                        
             client.publish(f'{topic_house}/{s.name}/serial',f'{s.sn}')
             client.publish(f'{topic_house}/{s.name}/online',f'{"yes" if s.online else "no"}')
             client.publish(f'{topic_house}/{s.name}/values',f'{s.data}')            
