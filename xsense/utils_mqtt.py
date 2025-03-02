@@ -40,18 +40,20 @@ def mqtt_environment(env: XSenseBase, client, topic):
     
     
     for h_id, h in env.houses.items():
-        print(f'----[ {h.name} ({h_id}) ]-----------------')
+        #print(f'----[ {h.name} ({h_id}) ]-----------------')
+        topic_house = f'{topic}/{h.name}'
         for s_id, s in h.stations.items():
 #            mqtt_device(s, client, topic)
-            client.publish(f'{topic}/{h.name}/{s.name}/serial',f'{s.sn}')
-            client.publish(f'{topic}/{h.name}/{s.name}/online',f'{"yes" if s.online else "no"}')
-            client.publish(f'{topic}/{h.name}/{s.name}/values',f'{s.data}')            
-            print(f'# {s.name} ({s_id})')
+            client.publish(f'{topic_house}/{s.name}/values',f'{s_id}')                        
+            client.publish(f'{topic_house}/{s.name}/serial',f'{s.sn}')
+            client.publish(f'{topic_house}/{s.name}/online',f'{"yes" if s.online else "no"}')
+            client.publish(f'{topic_house}/{s.name}/values',f'{s.data}')            
+           # print(f'# {s.name} ({s_id})')
             for d_id, d in s.devices.items():
-#                mqtt_device(d)
-                client.publish(f'{topic}/{h.name}/{d.name}/serial',f'{d.sn}')
-                client.publish(f'{topic}/{h.name}/{d.name}/online',f'{"yes" if d.online else "no"}')
-                client.publish(f'{topic}/{h.name}/{d.name}/values',f'{d.data}')                
+                mqtt_device(d, client, topic_house)
+#                client.publish(f'{topic_house}/{d.name}/serial',f'{d.sn}')
+#                client.publish(f'{topic_house}/{d.name}/online',f'{"yes" if d.online else "no"}')
+#                client.publish(f'{topic_house}/{d.name}/values',f'{d.data}')                
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -60,7 +62,10 @@ def on_connect(client, userdata, flags, rc):
         print(f"Connected fail with code {rc}")
 
 def mqtt_device(d, client, topic):
-    print(f'{d.name} ({d.type}):')
-    print(f'  serial  : {d.sn}')
-    print(f'  online  : {"yes" if d.online else "no"}')
-    print(f'  values  : {d.data}')  
+#    print(f'{d.name} ({d.type}):')
+#    print(f'  serial  : {d.sn}')
+#    print(f'  online  : {"yes" if d.online else "no"}')
+#    print(f'  values  : {d.data}')  
+    client.publish(f'{topic}/{d.name}/serial',f'{d.sn}')
+    client.publish(f'{topic}/{d.name}/online',f'{"yes" if d.online else "no"}')
+    client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
