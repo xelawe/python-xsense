@@ -1,3 +1,4 @@
+import uuid
 import asyncio
 
 from xsense.async_xsense import AsyncXSense
