@@ -28,7 +28,7 @@ async def run(username: str, password: str):
     client.connect(mqtthost, 1883, 60)
     client.loop_start()
     
-    mqtt_enwironment(api, client, mqtttopic)
+    mqtt_environment(api, client, mqtttopic)
 
     client.loop_stop()
 
