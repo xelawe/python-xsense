@@ -19,7 +19,7 @@ async def run(username: str, password: str):
             await api.get_station_state(s)
             await api.get_state(s)
 
-    dump_environment(api)
+    #dump_environment(api)
 
     client = mqtt.Client()
     mqtthost, mqttusr, mqttpwd, mqtttopic = get_mqttenv()
