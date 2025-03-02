@@ -2,7 +2,7 @@ import asyncio
 
 from xsense.async_xsense import AsyncXSense
 from xsense.utils import dump_environment, get_credentials
-from xsense.utils_mqtt import mqtt_environment, get_mqttenv
+from xsense.utils_mqtt import mqtt_environment, get_mqttenv, on_connect
 import paho.mqtt.client as mqtt
 
 async def run(username: str, password: str):
@@ -24,8 +24,13 @@ async def run(username: str, password: str):
     client = mqtt.Client()
     mqtthost, mqttusr, mqttpwd, mqtttopic = get_mqttenv()
     client.username_pw_set(mqttusr,mqttpwd)  
+    client.on_connect = on_connect
+    client.connect(mqtthost, 1883, 60)
+    client.loop_start()
+    
     mqtt_enwironment(api, client, mqtttopic)
 
+    client.loop_stop()
 
 username, password = get_credentials()
 asyncio.run(run(username, password))
