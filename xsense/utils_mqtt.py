@@ -37,23 +37,13 @@ def get_mqttenv():
 
 def mqtt_environment(env: XSenseBase, client, topic):
 
-    
-    
     for h_id, h in env.houses.items():
-        #print(f'----[ {h.name} ({h_id}) ]-----------------')
         topic_house = f'{topic}/{h.name}'
+        client.publish(f'{topic_house}/id',f'{h_id}')            
         for s_id, s in h.stations.items():
-#            mqtt_device(s, client, topic)
-            client.publish(f'{topic_house}/{s.name}/id',f'{s_id}')                        
-            client.publish(f'{topic_house}/{s.name}/serial',f'{s.sn}')
-            client.publish(f'{topic_house}/{s.name}/online',f'{"yes" if s.online else "no"}')
-            client.publish(f'{topic_house}/{s.name}/values',f'{s.data}')            
-           # print(f'# {s.name} ({s_id})')
+            mqtt_device(s, s_id, client, topic_house)
             for d_id, d in s.devices.items():
-                mqtt_device(d, client, topic_house)
-#                client.publish(f'{topic_house}/{d.name}/serial',f'{d.sn}')
-#                client.publish(f'{topic_house}/{d.name}/online',f'{"yes" if d.online else "no"}')
-#                client.publish(f'{topic_house}/{d.name}/values',f'{d.data}')                
+                mqtt_device(d, d_id, client, topic_house)           
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -61,11 +51,8 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connected fail with code {rc}")
 
-def mqtt_device(d, client, topic):
-#    print(f'{d.name} ({d.type}):')
-#    print(f'  serial  : {d.sn}')
-#    print(f'  online  : {"yes" if d.online else "no"}')
-#    print(f'  values  : {d.data}')  
+def mqtt_device(d, d_id, client, topic):
+    client.publish(f'{topic}/{s.name}/id',f'{d_id}')            
     client.publish(f'{topic}/{d.name}/serial',f'{d.sn}')
     client.publish(f'{topic}/{d.name}/online',f'{"yes" if d.online else "no"}')
     client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
