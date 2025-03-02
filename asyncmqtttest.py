@@ -19,7 +19,7 @@ async def run(username: str, password: str):
 
     dump_environment(api)
 
-    client = mqtt.Client()
+    client = mqtt.Client(client_id=str(uuid.uuid4()))
     mqtthost, mqttusr, mqttpwd, mqtttopic = get_mqttenv()
     client.username_pw_set(mqttusr,mqttpwd)  
     client.on_connect = on_connect
