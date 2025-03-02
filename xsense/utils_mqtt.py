@@ -52,7 +52,7 @@ def on_connect(client, userdata, flags, rc):
         print(f"Connected fail with code {rc}")
 
 def mqtt_device(d, d_id, client, topic):
-    client.publish(f'{topic}/{s.name}/id',f'{d_id}')            
+    client.publish(f'{topic}/{d.name}/id',f'{d_id}')            
     client.publish(f'{topic}/{d.name}/serial',f'{d.sn}')
     client.publish(f'{topic}/{d.name}/online',f'{"yes" if d.online else "no"}')
     client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
