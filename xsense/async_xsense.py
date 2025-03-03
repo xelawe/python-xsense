@@ -197,7 +197,6 @@ class AsyncXSense(XSenseBase):
                 continue
 
             if 'reported' in res.get('state', {}):
-                print(f'{res}')
                 self._parse_get_house_state(house, res['state']['reported'])
             # else:
             #     text = await self._lastres.text()
