@@ -1,5 +1,6 @@
 import uuid
 import asyncio
+import time
 
 from xsense.async_xsense import AsyncXSense
 from xsense.utils import dump_environment, get_credentials
