@@ -192,7 +192,9 @@ class AsyncXSense(XSenseBase):
     async def get_house_state(self, house: House):
         for page in ('mainpage', '2nd_mainpage'):
             res = await self.get_house(house, page)
-
+            
+            print(f'{res}')
+            
             if self._lastres.status == 404:
                 continue
 
