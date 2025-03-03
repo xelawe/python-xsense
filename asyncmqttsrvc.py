@@ -29,7 +29,7 @@ async def run(username: str, password: str):
               await api.get_station_state(s)
               await api.get_state(s)
   
-      dump_environment(api)
+#      dump_environment(api)
       mqtt_environment(api, client, mqtttopic)
   
   #    client.loop_stop()
