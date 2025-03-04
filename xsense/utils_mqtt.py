@@ -55,4 +55,6 @@ def mqtt_device(d, d_id, client, topic):
     client.publish(f'{topic}/{d.name}/id',f'{d_id}')            
     client.publish(f'{topic}/{d.name}/serial',f'{d.sn}')
     client.publish(f'{topic}/{d.name}/online',f'{"yes" if d.online else "no"}')
-    client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
+    json=d.data.replace("\'","\"")   
+#    client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
+    client.publish(f'{topic}/{d.name}/values',f'{d.data}')    
