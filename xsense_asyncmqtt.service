@@ -1,0 +1,9 @@
+[Unit]
+Description=X-Sense Async and MQTT
+
+[Service]
+WorkingDirectory=/home/pi/xsense/python-xsense
+ExecStart=/home/pi/xsense/bin/python3 /home/pi/xsense/python-xsense/asyncmqttsrvc.py
+
+[Install]
+WantedBy=multi-user.target
