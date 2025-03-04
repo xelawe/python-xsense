@@ -38,7 +38,7 @@ def get_mqttenv():
 def mqtt_environment(env: XSenseBase, client, topic):
 
     for h_id, h in env.houses.items():
-        topic_house = f'{topic}/{h.name}'
+        topic_house = adjust_topic(f'{topic}/{h.name}')
         client.publish(f'{topic_house}/id',f'{h_id}')            
         for s_id, s in h.stations.items():
             mqtt_device(s, s_id, client, topic_house)
@@ -52,11 +52,16 @@ def on_connect(client, userdata, flags, rc):
         print(f"Connected fail with code {rc}")
 
 def mqtt_device(d, d_id, client, topic):
-    client.publish(f'{topic}/{d.name}/id',f'{d_id}')            
-    client.publish(f'{topic}/{d.name}/serial',f'{d.sn}')
-    client.publish(f'{topic}/{d.name}/online',f'{"yes" if d.online else "no"}')
+    dev_topic=adjust_topic(f'{topic}/{d.name}')
+    client.publish(f'{dev_topic}/id',f'{d_id}')            
+    client.publish(f'{dev_topic}/serial',f'{d.sn}')
+    client.publish(f'{dev_topic}/online',f'{"yes" if d.online else "no"}')
     json=str(d.data).replace("\'","\"")  
     json=json.replace("False","\"False\"")
     json=json.replace("True","\"True\"")
 #    client.publish(f'{topic}/{d.name}/values',f'{d.data}')        
-    client.publish(f'{topic}/{d.name}/values',f'{json}')    
+    client.publish(f'{dev_topic}/values',f'{json}')    
+
+def adjust_topic(topic):
+    topic_adj=topic.replace(" ","_")
+    return topic_adj
