@@ -1,9 +1,13 @@
 [Unit]
 Description=X-Sense Async and MQTT
+After=multi-user.target
 
 [Service]
+user=pi
 WorkingDirectory=/home/pi/xsense/python-xsense
 ExecStart=/home/pi/xsense/bin/python3 /home/pi/xsense/python-xsense/asyncmqttsrvc.py
+Restart=on-failure
+Type=idle
 
 [Install]
 WantedBy=multi-user.target
